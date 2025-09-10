@@ -301,6 +301,18 @@ def hourly_count(df, city, month, day):
     plt.xlabel('Hours(0-23)')
     plt.show()
 
+def monthly_count(df, city, month, day, smooth):
+    cnt = df['date'].value_counts().sort_index()
+    full_range = pd.date_range(cnt.index.min(), cnt.index.max(), freq='D')
+    cnt = cnt.reindex(full_range, fill_value = 0)
+    plt.figure()
+    plt.plot(cnt)
+    plt.plot(cnt.rolling(smooth,center=True,min_periods=1).mean())
+    plt.legend(['Daily', f'{smooth}-day rolling mean'])
+
+    plt.title(f'Trips per day in {city.title()} (m={month.title()}, dow=all days)')
+    plt.ylabel('Trips')
+    plt.show()
 
 def draw_interactive(df, city, month, day):
     dt = pd.to_datetime(df['Start Time'])
@@ -309,6 +321,10 @@ def draw_interactive(df, city, month, day):
     df['date'] = dt.dt.floor('D')
     if((month == 'all' and day!='all') or (month!='all' and day!='all')):
         hourly_count(df,city,month,day)
+    elif(month!=all):
+        monthly_count(df, city, month, day, 3)#setting a different smooth parameter so that window won't be too large
+    else:
+        monthly_count(df, city, month, day, 7)
 
 def main():
     while True:
