@@ -215,10 +215,10 @@ def see_head(df):
 
     length = len(df.index)
     size = 0
-    cur_pos = 0
+    current_pos = 0
     while(True):
         size = min(length-cur_pos, 5)
-        for idx, row in df.iloc[cur_pos:cur_pos+size].iterrows():
+        for idx, row in df.iloc[current_pos:current_pos+size].iterrows():
             print('{',f"'':'{idx}'")
             print(f" 'Birth Year': '{row['Birth Year']}'")
             print(f" 'End Station': '{row['End Station']}'")
