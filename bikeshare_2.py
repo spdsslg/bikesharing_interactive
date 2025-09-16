@@ -209,6 +209,10 @@ def chunker(df, beg, size):
     return df.iloc[beg:beg+size]
 
 def see_head(df):
+    """
+    Interactively page through the first rows of a DataFrame, printing
+    up to 5 records at a time in a readable, JSON-like layout.
+    """
     choice = input("Do you want to see the first 5 rows? (yes/no): ").strip()
     if(choice.lower()!='yes'):
         return 
