@@ -102,7 +102,7 @@ The script will prompt for:
 
 - City: chicago, new york city, washington
 - Month: 1..6 or all
-- Day of week (DOW): 1..6 (Mon=1 … Sun=6) or all
+- Day of week (DOW): 1..7 (Mon=1 … Sun=7) or all
 
 It prints summary stats to the terminal and asks user if they want to 
 - See first 5 rows of raw data (formatted)
