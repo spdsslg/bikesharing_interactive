@@ -1,6 +1,6 @@
 # Bike Sharing Analysis (Jan–Jun 2017)
 
-A small Python project to explore US bike-sharing data (Chicago, New York City, Washington) from Jan–Jun 2017.
+A Python project to explore US bike-sharing data (Chicago, New York City, Washington) from Jan–Jun 2017.
 It’s a **terminal-driven app**: you choose _city_, _month_ (or all), and _day of week_ (or all).
 The program prints quick stats:
 - most common month/day/start hour 
