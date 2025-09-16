@@ -350,7 +350,7 @@ def main():
             draw_interactive(df,city,month,day)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
+        if (not re.fullmatch(r'y(es)?',restart.lower())):
             break
 
 
