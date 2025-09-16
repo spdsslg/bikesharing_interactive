@@ -291,6 +291,24 @@ def compare_mean_time():
     plt.savefig(OUT/'travel_time_per_interval.png')
 
 def hourly_count(df, city, month, day):
+    """def hourly_count(df, city, month, day):
+    Plot hourly trip counts for a pre-filtered selection.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        DataFrame already filtered to the user's selection (city/month/dow) and
+        containing an integer 'hour' column in the range 0–23. If you pass raw
+        data, make sure to add `df['hour'] = pd.to_datetime(df['Start Time']).dt.hour`
+        and apply any filters before calling.
+    city : str
+        City name used for the plot title (e.g., "chicago", "new_york_city").
+    month : {1..6, "all"}
+        Target month or "all". Only used for title text; this function does not
+        perform additional filtering.
+    day : {1..7, "all"}
+        Day of week (Mon=1 … Sun=7) or "all". Only used for title text.
+    """
     cnt = df.groupby(['hour']).size().reindex(range(24), fill_value=0)
     plt.figure()
     plt.bar(cnt.index, cnt.values)
@@ -301,7 +319,27 @@ def hourly_count(df, city, month, day):
     plt.xlabel('Hours(0-23)')
     plt.show()
 
-def monthly_count(df, city, month, day, smooth):
+def monthly_count(df, city, month, smooth):
+    """Plot daily trip counts with a centered rolling mean for smoothing.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        DataFrame already filtered to the user's selection and containing a
+        'date' column of dtype datetime64[ns] representing calendar days
+        (e.g., `df['date'] = pd.to_datetime(df['Start Time']).dt.floor('D')`).
+    city : str
+        City name for the title.
+    month : {1..6, "all"}
+        Month label for the title (no filtering is done here).
+    smooth : int
+        Window size (in days) for the centered rolling mean. Must be >= 1.
+
+    Behavior
+    --------
+    - Counts trips per day and reindexes to a full daily range so gaps become 0.
+      This ensures evenly spaced x-ticks and meaningful `rolling(smooth)` windows.
+    - Plots the raw daily line (faint) and the smoothed line."""
     cnt = df['date'].value_counts().sort_index()
     full_range = pd.date_range(cnt.index.min(), cnt.index.max(), freq='D')
     cnt = cnt.reindex(full_range, fill_value = 0)
@@ -315,6 +353,11 @@ def monthly_count(df, city, month, day, smooth):
     plt.show()
 
 def draw_interactive(df, city, month, day):
+    """
+    Prepare time columns and dispatch to an appropriate visualization
+    based on the user's selection (city, month, day-of-week).
+    """
+
     dt = pd.to_datetime(df['Start Time'])
     df['hour'] = dt.dt.hour
     df['month'] = dt.dt.month
